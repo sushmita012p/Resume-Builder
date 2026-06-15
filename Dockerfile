@@ -21,13 +21,10 @@ RUN npm install
 
 COPY . .
 
-RUN npm run build \
-    && php artisan config:cache \
-    && php artisan route:cache \
-    && php artisan view:cache
+RUN npm run build
 
 RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
 
 EXPOSE 8080
 
-CMD php artisan migrate --force && php -S 0.0.0.0:8080 -t public
+CMD php artisan config:clear && php artisan migrate --force && php -S 0.0.0.0:8080 -t public
